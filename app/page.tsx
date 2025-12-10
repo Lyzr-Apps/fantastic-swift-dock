@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { AlertCircle, Copy, MessageCircle, Plus, ChevronDown } from 'lucide-react'
+import { AlertCircle, Copy, MessageCircle, Plus, ChevronDown, FileUp, Settings } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { KnowledgeBaseUpload } from '@/components/KnowledgeBaseUpload'
 
 interface Message {
   id: string
@@ -32,9 +34,11 @@ export default function HomePage() {
   const [error, setError] = useState('')
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [expandedSourceIndex, setExpandedSourceIndex] = useState<number | null>(null)
+  const [kbSheetOpen, setKbSheetOpen] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const AGENT_ID = '69397cbb1f3e985c1e3683f5'
+  const KB_ID = '69397cb6bce3596314f2cee1'
   const SAMPLE_QUESTIONS = [
     'What does this document contain?',
     'Can you summarize the key points?',
@@ -246,7 +250,32 @@ export default function HomePage() {
             <MessageCircle className="w-6 h-6 text-gray-700" />
           </button>
           <h1 className="text-xl font-semibold text-gray-900">Knowledge Base Chatbot</h1>
-          <div className="w-10"></div>
+          <Sheet open={kbSheetOpen} onOpenChange={setKbSheetOpen}>
+            <SheetTrigger asChild>
+              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <FileUp className="w-6 h-6 text-gray-700" />
+              </button>
+            </SheetTrigger>
+            <SheetContent className="w-full sm:w-[500px]">
+              <SheetHeader>
+                <SheetTitle>Manage Knowledge Base</SheetTitle>
+                <SheetDescription>
+                  Upload documents and manage your knowledge base content
+                </SheetDescription>
+              </SheetHeader>
+              <div className="mt-6">
+                <KnowledgeBaseUpload
+                  ragId={KB_ID}
+                  onUploadSuccess={() => {
+                    // Optional: show feedback or refresh
+                  }}
+                  onDeleteSuccess={() => {
+                    // Optional: show feedback
+                  }}
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
 
         {/* Chat Messages */}
