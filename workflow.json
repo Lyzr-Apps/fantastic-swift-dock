@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "updated_at": "2025-12-10T00:00:00Z",
+  "workflow": {
+    "nodes": [
+      {
+        "id": "input",
+        "type": "input",
+        "label": "User Query",
+        "nodeCategory": "input",
+        "description": "User enters a question",
+        "position": { "x": 100, "y": 200 }
+      },
+      {
+        "id": "kb_chat_agent",
+        "type": "agent",
+        "label": "Knowledge Base Chat Agent",
+        "nodeCategory": "agent",
+        "description": "Searches knowledge base and answers questions",
+        "position": { "x": 500, "y": 200 }
+      },
+      {
+        "id": "output",
+        "type": "end",
+        "label": "Response with Sources",
+        "nodeCategory": "end",
+        "description": "Chat response with source citations",
+        "position": { "x": 900, "y": 200 }
+      }
+    ],
+    "edges": [
+      {
+        "source": "input",
+        "target": "kb_chat_agent",
+        "label": "User question"
+      },
+      {
+        "source": "kb_chat_agent",
+        "target": "output",
+        "label": "Answer with sources"
+      }
+    ]
+  },
+  "agents": [
+    {
+      "agent_id": "69397cbb1f3e985c1e3683f5",
+      "node_id": "kb_chat_agent",
+      "name": "Knowledge Base Chat Agent",
+      "description": "Answers user questions by searching the connected knowledge base, retrieves relevant document sections, and provides accurate responses with source references. Maintains conversation context for follow-up questions.",
+      "agent_role": "Knowledge Base Assistant",
+      "agent_goal": "Provide accurate, contextual answers to user questions based on uploaded documents and website content",
+      "agent_instructions": "You are a helpful knowledge base assistant. Your role is to answer user questions accurately and thoroughly by searching the connected knowledge base.\n\nInstructions:\n1. Search the knowledge base for relevant information related to the user's question\n2. Retrieve the most relevant document sections and passages\n3. Formulate a clear, natural language response based on the retrieved information\n4. Include source references citing which documents the information came from\n5. Maintain conversation context to understand follow-up questions\n6. If you cannot find relevant information in the knowledge base, clearly state that the information is not available in your current knowledge base\n7. Provide citations in the format: [Source: Document Name - Section/Page Reference]\n8. Be concise but comprehensive in your responses\n9. Ask clarifying questions if the user's query is ambiguous",
+      "provider_id": "OpenAI",
+      "model": "gpt-4o-mini",
+      "temperature": 0.3,
+      "top_p": 1,
+      "features": ["KNOWLEDGE_BASE", "MEMORY"],
+      "has_knowledge_base": true,
+      "rag_id": "69397cb6bce3596314f2cee1",
+      "rag_name": "knowledgebasechatbotkbrk4o",
+      "position": { "x": 500, "y": 200 },
+      "created_at": "2025-12-10T00:00:00Z"
+    }
+  ],
+  "knowledge_bases": [
+    {
+      "rag_id": "69397cb6bce3596314f2cee1",
+      "rag_name": "knowledgebasechatbotkbrk4o",
+      "description": "Vector database for user-uploaded documents and website content to answer chatbot queries",
+      "linked_agent_ids": ["69397cbb1f3e985c1e3683f5"],
+      "created_at": "2025-12-10T00:00:00Z"
+    }
+  ]
+}
